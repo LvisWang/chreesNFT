@@ -36,13 +36,11 @@ const addresses = [
   "0x5E661e550Fcac43DEC925449A7F0bCA0C32D6A44",
   "0xA46f327d91282aFD4E99d79a8fD7Eac7A123dAF5",
   "0xD03241a89a18c779B71f1bD348d2BbF1e20b8ea8",
-  "0xed0850a960ABE5715ECEa4b479272092733922f0",
   "0x4D15f921A25e8677Da2d878B01c80Df861E67F03",
   "0x98d450BfbBFD64D780B632f6acd0FC59d11E575e",
   "0xaef0FfA370108915d4198Fe6eF40eBa446f00d79",
   "0x5Bc46cf525E6E26f8799685E5247a93355354cBf",
   "0x5B9837c339F7b55564Aeb185e8DEdeEDD10AfcB7",
-  "0xbda8049200F7a42312AFeBDb5b99D514EE0df302",
 ];
 
 // 通过hash生成叶子，返回二进制格式（buffer）
@@ -67,10 +65,6 @@ const buf2hex = x => {
 };
 // buffer 转换成 16进制，在合约 isValid 验证白名单
 let inputRemixLeaf = buf2hex(keccak256(addresses[0]));
-
-
-
-
 
 console.log("🛠️  verify", verify);
 console.log("🛠️  leaf", leaf);
