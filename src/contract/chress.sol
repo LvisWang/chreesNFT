@@ -26,10 +26,9 @@ contract ChressPals is ERC721URIStorage {
 
     bool IsMintting = true; // 是否开启mint
 
-    constructor(bytes32 _root) ERC721("ChressPalss", "CPP") {
+    constructor() ERC721("ChressPalss", "CPP") {
         owner = msg.sender;
         _tokenIds.increment(); // tokenid从1起
-        root = _root; //部署时候传入root
     }
 
     // NFT mint
