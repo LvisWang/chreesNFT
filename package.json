@@ -1,0 +1,25 @@
+{
+    "name": "chrees",
+    "main": "index.js",
+    "dependencies": {
+        "keccak256": "^1.0.6",
+        "merkletreejs": "^0.2.31"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/CourteousBin/Merkletreewhitelist.git"
+    },
+    "keywords": [
+        "MerkleTree",
+        "WhiteList"
+    ],
+    "author": "CourteousBin",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/CourteousBin/Merkletreewhitelist/issues"
+    },
+    "homepage": "https://github.com/CourteousBin/Merkletreewhitelist#readme"
+}
