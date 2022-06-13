@@ -646,7 +646,7 @@
   }
   #ta img {
     border: none !important;
-    transition: all 0.5s;
+    transition: all 0.3s;
     transform: scale(1);
   }
   #ta img:hover {
