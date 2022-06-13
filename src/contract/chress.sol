@@ -74,7 +74,7 @@ contract ChressPals is ERC721URIStorage {
      * 配置白名单
      * markleTree root hash
      */
-    function setMarkleTreeRoot(bytes32 _root) public {
+    function setMarkleTreeRoot(bytes32 _root) public byOwner {
         root = _root;
     }
 
@@ -109,11 +109,15 @@ contract ChressPals is ERC721URIStorage {
     }
 
     // 合约ether提现
-    function withdraw() public payable {
-        require(msg.sender == owner, "not owner");
+    function withdraw() public payable byOwner {
         (bool success, ) = payable(msg.sender).call{
             value: address(this).balance
         }("");
         require(success);
+    }
+
+    modifier byOwner() {
+        require(msg.sender == owner, "Must be owner!");
+        _;
     }
 }
