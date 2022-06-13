@@ -642,6 +642,15 @@
     margin-top: 5rem;
   }
   #ta td {
-    margin-right: 2rem;
+    margin-right: 4rem;
+  }
+  #ta img {
+    border: none !important;
+    transition: all 0.5s;
+    transform: scale(1);
+  }
+  #ta img:hover {
+    border: none;
+    transform: scale(1.2);
   }
 </style>
