@@ -66,7 +66,7 @@ contract ChressPals is ERC721URIStorage {
     }
 
     // 切换mint状态
-    function checkoutMintState(bool state) public {
+    function checkoutMintState(bool state) public byOwner {
         IsMintting = state;
     }
 
