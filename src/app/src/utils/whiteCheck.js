@@ -19,16 +19,19 @@ export default {
     };
   },
   methods: {
-    whiteMintMethod() {
+    async whiteMintMethod() {
       this.initWhiteList(); // 初始化白名单，获取用户资格
       this.initContractNeed(); // 获取root树，proot树
-      this.mint();
+      await this.mint();
     },
     initWhiteList() {
-      this.whiteList = whiteList.data;
+      this.whiteList = whiteList.data.map(v => v.toLowerCase());
       this.isWhite = this.whiteList.includes(this.address);
+
+      console.log(whiteList);
     },
     initContractNeed() {
+      console.log(this.isWhite);
       if (!this.isWhite) return;
       const leaves = this.whiteList.map(x => keccak256(x));
       const tree = new MerkleTree(leaves, keccak256, { sortPairs: true });
@@ -38,7 +41,7 @@ export default {
       console.log("root", this.root);
       console.log("proof", this.proof);
     },
-    mint() {
+    async mint() {
       if (!this.isWhite) return;
       const Provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = Provider.getSigner();
@@ -47,7 +50,8 @@ export default {
         contractABI,
         signer,
       );
-      Contract.mintWhiteLists(this.address, this.proof);
+      const a = await Contract.mintWhiteLists(this.address, this.proof);
+      console.log("🛠️  ~ file: whiteCheck.js ~ line 51 ~ mint ~ a", a);
     },
   },
 };
