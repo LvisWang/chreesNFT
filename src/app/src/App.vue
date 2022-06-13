@@ -70,15 +70,6 @@
                 alt="Open Sea"
                 src="https://assets-global.website-files.com/61e9ad107f42425177667f64/61e9c7fb7d3d18a3fe21d704_Group%20269%20(1).svg" /></a
             ><a
-              href="https://looksrare.org/collections/Cheerspals"
-              target="_blank"
-              class="social-link w-inline-block"
-              ><img
-                width="44"
-                loading="lazy"
-                alt="Open Sea"
-                src="https://assets-global.website-files.com/61e9ad107f42425177667f64/621a74a9d8a81dc23e29a220_looksrare-logo.svg" /></a
-            ><a
               href="https://twitter.com/CheersPals"
               target="_blank"
               class="social-link w-inline-block"
@@ -112,10 +103,10 @@
           alt="CheersPal logo"
         />
         <h1 class="heading">Cheers pals</h1>
-        <!-- TODO -->
-        <Mint />
-        <!-- TODO -->
-        <WhiteMint />
+        <Connect @click="connectWallet" :userAddress="address" />
+
+        <!--       <Mint /> -->
+        <WhiteMint @click="fetchWhiteMint" />
       </div>
     </div>
     <div id="about" class="white-section wf-section">
@@ -611,18 +602,50 @@
   </div>
 </template>
 
-<script lang="ts">
-  import { Options, Vue } from "vue-class-component";
-  import Mint from "./components/mint/index.vue";
+<script>
+  import Connect from "./components/connect/index.vue";
+  /*   import Mint from "./components/mint/index.vue";*/
   import WhiteMint from "./components/whiteMint/index.vue";
 
-  @Options({
+  import ConnectTool from "./utils/connect.js";
+  import WhiteTool from "./utils/whiteCheck.js";
+
+  /*
+   * data
+   * address:string
+   * isWhite: bool,
+   * whiteList: array,
+   */
+
+  export default {
     components: {
-      Mint,
+      Connect,
       WhiteMint,
+      /*   WhiteMint, */
     },
-  })
-  export default class App extends Vue {}
+    mixins: [ConnectTool, WhiteTool],
+    data() {
+      address: "";
+      isWhite: false;
+      whiteList: [];
+    },
+    mounted() {
+      this.getUserAddress();
+    },
+    methods: {
+      async connectWallet() {
+        await this.onConnect();
+      },
+      async fetchWhiteMint() {
+        if (!this.address) {
+          this.onConnect();
+          return;
+        }
+    
+        this.whiteMintMethod();
+      },
+    },
+  };
 </script>
 
 <style>

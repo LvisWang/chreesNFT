@@ -11,15 +11,22 @@
           rotateY(0) rotateZ(0) skew(0, 0);
         transform: translate3d(0, 0, 0) scale3d(0, 0, 1) rotateX(0) rotateY(0)
           rotateZ(0) skew(0, 0);
-        background-color: #fc6363;
       "
       href="#"
       class="button w-button"
-      >MINT</a
-    >
+      @click="onConnect"
+      >{{
+        userAddress
+          ? `${userAddress.slice(0, 5)}...${userAddress.slice(-5)}`
+          : "Connect Metamask"
+      }}
+      <img src="./metamask.svg" alt="" srcset="" />
+    </a>
   </div>
 </template>
 <script>
-  export default {};
+  export default {
+    props: ["userAddress"],
+  };
 </script>
 <style lang=""></style>
