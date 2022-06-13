@@ -27,11 +27,8 @@ export default {
     initWhiteList() {
       this.whiteList = whiteList.data.map(v => v.toLowerCase());
       this.isWhite = this.whiteList.includes(this.address);
-
-      console.log(whiteList);
     },
     initContractNeed() {
-      console.log(this.isWhite);
       if (!this.isWhite) return;
       const leaves = this.whiteList.map(x => keccak256(x));
       const tree = new MerkleTree(leaves, keccak256, { sortPairs: true });
@@ -50,7 +47,9 @@ export default {
         contractABI,
         signer,
       );
-      const a = await Contract.mintWhiteLists(this.address, this.proof);
+      const a = await Contract.mintWhiteLists(this.address, this.proof, {
+        gasLimit: 3000000,
+      });
       console.log("🛠️  ~ file: whiteCheck.js ~ line 51 ~ mint ~ a", a);
     },
   },
