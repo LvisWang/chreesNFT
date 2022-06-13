@@ -113,40 +113,9 @@
         />
         <h1 class="heading">Cheers pals</h1>
         <!-- TODO -->
-        <a
-          data-w-id="57408da1-b59b-fad3-0308-861394b4b6b8"
-          style="
-            -webkit-transform: translate3d(0, 0, 0) scale3d(0, 0, 1) rotateX(0)
-              rotateY(0) rotateZ(0) skew(0, 0);
-            -moz-transform: translate3d(0, 0, 0) scale3d(0, 0, 1) rotateX(0)
-              rotateY(0) rotateZ(0) skew(0, 0);
-            -ms-transform: translate3d(0, 0, 0) scale3d(0, 0, 1) rotateX(0)
-              rotateY(0) rotateZ(0) skew(0, 0);
-            transform: translate3d(0, 0, 0) scale3d(0, 0, 1) rotateX(0)
-              rotateY(0) rotateZ(0) skew(0, 0);
-          "
-          href="#"
-          class="button w-button"
-          >MINT</a
-        >
+        <Mint />
         <!-- TODO -->
-        <a
-          data-w-id="57408da1-b59b-fad3-0308-861394b4b6b8"
-          style="
-            -webkit-transform: translate3d(0, 0, 0) scale3d(0, 0, 1) rotateX(0)
-              rotateY(0) rotateZ(0) skew(0, 0);
-            -moz-transform: translate3d(0, 0, 0) scale3d(0, 0, 1) rotateX(0)
-              rotateY(0) rotateZ(0) skew(0, 0);
-            -ms-transform: translate3d(0, 0, 0) scale3d(0, 0, 1) rotateX(0)
-              rotateY(0) rotateZ(0) skew(0, 0);
-            transform: translate3d(0, 0, 0) scale3d(0, 0, 1) rotateX(0)
-              rotateY(0) rotateZ(0) skew(0, 0);
-            background-color: #fc6363;
-          "
-          href="#"
-          class="button w-button"
-          >WhiteLists MINT</a
-        >
+        <WhiteMint />
       </div>
     </div>
     <div id="about" class="white-section wf-section">
@@ -644,11 +613,13 @@
 
 <script lang="ts">
   import { Options, Vue } from "vue-class-component";
-  import HelloWorld from "./components/HelloWorld.vue";
+  import Mint from "./components/mint/index.vue";
+  import WhiteMint from "./components/whiteMint/index.vue";
 
   @Options({
     components: {
-      HelloWorld,
+      Mint,
+      WhiteMint,
     },
   })
   export default class App extends Vue {}
