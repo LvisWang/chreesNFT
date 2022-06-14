@@ -103,10 +103,11 @@
           alt="CheersPal logo"
         />
         <h1 class="heading">Cheers pals</h1>
-        <Connect @click="connectWallet" :userAddress="address" />
 
-        <!--       <Mint /> -->
-        <WhiteMint @click="fetchWhiteMint" />
+        <Connect @click="connectWallet" :userAddress="address" />
+        <CheckAward v-show="!checked" @click="checkIsAward" />
+        <Mint v-if="!isWhite && checked" @click="fetchMint" />
+        <WhiteMint v-if="isWhite && checked" @click="fetchWhiteMint" />
       </div>
     </div>
     <div id="about" class="white-section wf-section">
@@ -604,45 +605,55 @@
 
 <script>
   import Connect from "./components/connect/index.vue";
-  /*   import Mint from "./components/mint/index.vue";*/
   import WhiteMint from "./components/whiteMint/index.vue";
+  import CheckAward from "./components/award/index.vue";
+  import Mint from "./components/mint/index.vue";
 
   import ConnectTool from "./utils/connect.js";
   import WhiteTool from "./utils/whiteCheck.js";
-
-  /*
-   * data
-   * address:string
-   * isWhite: bool,
-   * whiteList: array,
-   */
+  import MintTool from "./utils/mint.js";
 
   export default {
     components: {
       Connect,
       WhiteMint,
-      /*   WhiteMint, */
+      CheckAward,
+      Mint,
     },
-    mixins: [ConnectTool, WhiteTool],
+    mixins: [ConnectTool, WhiteTool, MintTool],
     data() {
       address: "";
       isWhite: false;
       whiteList: [];
+      checked: false;
     },
     mounted() {
-      this.getUserAddress();
+      this.connectWallet();
+      // 检测用户地址变化
+      ethereum.on("accountsChanged", accounts => {
+        this.connectWallet();
+        this.checked = false;
+      });
     },
     methods: {
       async connectWallet() {
         await this.onConnect();
+      },
+      checkIsAward() {
+        this.initWhiteList();
+        this.checked = true;
       },
       async fetchWhiteMint() {
         if (!this.address) {
           this.onConnect();
           return;
         }
-    
+
         this.whiteMintMethod();
+      },
+      async fetchMint() {
+        console.log("click");
+        await this.guestMint();
       },
     },
   };
@@ -654,14 +665,17 @@
     justify-content: space-between;
     margin-top: 5rem;
   }
+
   #ta td {
     margin-right: 4rem;
   }
+
   #ta img {
     border: none !important;
     transition: all 0.3s;
     transform: scale(1);
   }
+
   #ta img:hover {
     border: none;
     transform: scale(1.2);

@@ -22,7 +22,7 @@ export default {
     async whiteMintMethod() {
       this.initWhiteList(); // 初始化白名单，获取用户资格
       this.initContractNeed(); // 获取root树，proot树
-      await this.mint();
+      await this.whiteMint();
     },
     initWhiteList() {
       this.whiteList = whiteList.data.map(v => v.toLowerCase());
@@ -38,7 +38,7 @@ export default {
       console.log("root", this.root);
       console.log("proof", this.proof);
     },
-    async mint() {
+    async whiteMint() {
       if (!this.isWhite) return;
       const Provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = Provider.getSigner();
@@ -50,7 +50,6 @@ export default {
       const a = await Contract.mintWhiteLists(this.address, this.proof, {
         gasLimit: 3000000,
       });
-      console.log("🛠️  ~ file: whiteCheck.js ~ line 51 ~ mint ~ a", a);
     },
   },
 };
