@@ -3,7 +3,8 @@
     <a
       data-w-id="57408da1-b59b-fad3-0308-861394b4b6b8"
       class="button w-button mint"
-      >MINT <font style="color: #fc6363">{{ mintAmount }}</font> Cheers</a
+    >
+      {{ mintAmount }} Cheers</a
     >
   </div>
 </template>
@@ -17,5 +18,8 @@
     transform: none;
     transition: all 0.5s;
     background-color: #f9da8d;
+    margin-left: 0.3rem;
+    margin-right: 0.3rem;
+    user-select: none;
   }
 </style>
