@@ -671,6 +671,11 @@
         await this.onConnect();
       },
       checkIsAward() {
+        if (!this.address) {
+          alert("Please connect wallet!");
+          this.onConnect();
+          return;
+        }
         this.initWhiteList();
         this.checked = true;
       },
