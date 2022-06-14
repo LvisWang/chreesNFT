@@ -106,7 +106,35 @@
 
         <Connect @click="connectWallet" :userAddress="address" />
         <CheckAward v-show="!checked" @click="checkIsAward" />
-        <Mint v-if="!isWhite && checked" @click="fetchMint" />
+
+        <div style="display: flex" v-if="!isWhite && checked">
+          <a
+            data-w-id="57408da1-b59b-fad3-0308-861394b4b6b8"
+            class="button w-button mint"
+            :style="`${
+              amount === 1
+                ? 'cursor: not-allowed;background:#fc6363'
+                : 'background:#f9da8d'
+            } `"
+            @click="reduceAmount"
+          >
+            {{ amount != 1 ? "-" : "min" }}
+          </a>
+          <Mint @click="fetchMint" :mintAmount="amount" />
+          <a
+            data-w-id="57408da1-b59b-fad3-0308-861394b4b6b8"
+            class="button w-button mint"
+            :style="`${
+              amount === 5
+                ? 'cursor: not-allowed;background:#fc6363'
+                : 'background:#f9da8d'
+            }`"
+            @click="addAmount"
+          >
+            {{ amount != 5 ? "+" : "max" }}</a
+          >
+        </div>
+
         <WhiteMint v-if="isWhite && checked" @click="fetchWhiteMint" />
       </div>
     </div>
@@ -622,10 +650,13 @@
     },
     mixins: [ConnectTool, WhiteTool, MintTool],
     data() {
-      address: "";
-      isWhite: false;
-      whiteList: [];
-      checked: false;
+      return {
+        address: "",
+        isWhite: false,
+        whiteList: [],
+        checked: false,
+        amount: 1,
+      };
     },
     mounted() {
       this.connectWallet();
@@ -654,6 +685,14 @@
       async fetchMint() {
         console.log("click");
         await this.guestMint();
+      },
+      addAmount() {
+        if (this.amount >= 5) return;
+        this.amount += 1;
+      },
+      reduceAmount() {
+        if (this.amount <= 1) return;
+        this.amount -= 1;
       },
     },
   };

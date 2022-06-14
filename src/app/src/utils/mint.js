@@ -3,6 +3,11 @@ import { ethers, utils } from "ethers";
 import { contractAddress, contractABI } from "./contractInfo";
 
 export default {
+  data() {
+    return {
+      amount: this.amount,
+    };
+  },
   methods: {
     async guestMint() {
       const Provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -12,8 +17,8 @@ export default {
         contractABI,
         signer,
       );
-      let wei = utils.parseEther((0.0088 * 5).toString());
-      const result = await Contract.mintGuset(this.address, 5, {
+      let wei = utils.parseEther((0.0088 * this.amount).toString());
+      const result = await Contract.mintGuset(this.address, this.amount, {
         gasLimit: 3000000,
         value: wei,
       });
