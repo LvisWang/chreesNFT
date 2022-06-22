@@ -47,6 +47,7 @@ export default {
         contractABI,
         signer,
       );
+
       const tx = await Contract.mintWhiteLists(this.address, this.proof, {
         gasLimit: 3000000,
       });

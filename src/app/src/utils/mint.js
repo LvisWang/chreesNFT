@@ -15,16 +15,18 @@ export default {
       const Contract = new ethers.Contract(
         contractAddress,
         contractABI,
-        signer,
+        signer
       );
       let wei = utils.parseEther((0.0088 * this.amount).toString());
-      const result = await Contract.mintGuset(this.address, this.amount, {
+      console.log(await Provider.getNetwork());
+      const result = await Contract.mintGuest(this.address, this.amount, {
         gasLimit: 3000000,
         value: wei,
       });
+
       console.log(
         "🛠️  ~ file: whiteCheck.js ~ line 51 ~ mint ~ result",
-        result,
+        result
       );
     },
   },

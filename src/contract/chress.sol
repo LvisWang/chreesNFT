@@ -6,79 +6,63 @@ import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
 
-contract ChressPals is ERC721URIStorage {
+contract CheersPals is ERC721URIStorage {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
 
-    address owner; // 最高权限地址
+    address owner;
 
-    /*
-     * Mint 配置项
-     * 最大5个
-     * 最小1个
-     * 0.0088 ether/个
-     */
+    uint MintMaxTotal = 10000;
     uint MintMaxCount = 5;
     uint MintMinCount = 1;
-    uint MintCost = 0.0088 ether;
+    uint MintOneCost = 0.0088 ether;
 
     bytes32 public root; // 白名单，MerkleProof校验hash
 
-    bool IsMintting = true; // 是否开启mint
+    bool IsMinting = true; // 是否开启mint
 
-    constructor() ERC721("ChressPalss", "CPP") {
+    constructor() ERC721("Cheers Pals", "CP") {
         owner = msg.sender;
-        _tokenIds.increment(); // tokenid从1起
+        _tokenIds.increment(); // tokenId从1起
     }
 
-    // NFT mint
     function mint(address player) private returns (uint256) {
-        require(IsMintting, "Stop Mint!");
+        require(IsMinting, "Stop Mint!");
         uint256 newItemId = _tokenIds.current();
         string memory tokenURI = getTokenURI(newItemId);
-
         _mint(player, newItemId);
         _setTokenURI(newItemId, tokenURI);
         _tokenIds.increment();
         return newItemId;
     }
 
-    /*
-     * 常规用户mint
-     * 1.一次可以mint 1~5 个
-     * 2.一个NFT支付0.0088 ether
-     */
-    function mintGuset(address player, uint times) public payable {
-        // require(msg.value >= MintCost * times,"ehter not enough!");
+    function mintGuest(address player, uint times) external payable {
+        require(msg.value >= MintOneCost * times,"ether not enough!");
         require(times <= MintMaxCount && times >= MintMinCount);
         for (uint key = 0; key < times; key++) {
             mint(player);
         }
     }
 
-    /*
-     * 白名单用户mint
-     * 仅可mint 1个
-     */
-    function mintWhiteLists(address player, bytes32[] memory proof) public {
+    function mintWhiteLists(address player, bytes32[] memory proof) external {
         require(isWhiteLists(proof, keccak256(abi.encodePacked(player))));
-        mint(player);
+        for (uint key = 0; key < times; key++) {
+            mint(player);
+        }
     }
 
-    // 切换mint状态
-    function checkoutMintState(bool state) public byOwner {
-        IsMintting = state;
+    function setMintTotal(uint count) external byOwner{
+        MintMaxTotal = count;
     }
 
-    /*
-     * 配置白名单
-     * markleTree root hash
-     */
-    function setMarkleTreeRoot(bytes32 _root) public byOwner {
+    function checkoutMintState(bool state) external byOwner {
+        IsMinting = state;
+    }
+
+    function setMerkleTreeRoot(bytes32 _root) external byOwner {
         root = _root;
     }
 
-    // 校验方法，传入两个数据，proof = 证明数据、lear = 地址
     function isWhiteLists(bytes32[] memory proof, bytes32 leaf)
         private
         view
@@ -87,13 +71,11 @@ contract ChressPals is ERC721URIStorage {
         return MerkleProof.verify(proof, root, leaf);
     }
 
-    // 合约URI
     function contractURI() public view returns (string memory) {
         return
             "https://raw.githubusercontent.com/CheersPals/cheerspalsofficial/main/json/collection.json";
     }
 
-    // 获取tokenURI
     function getTokenURI(uint256 index) private view returns (string memory) {
         uint256 randomIndex = index;
         string memory randomIndexString = Strings.toString(randomIndex);
@@ -108,7 +90,6 @@ contract ChressPals is ERC721URIStorage {
         return tokenURI;
     }
 
-    // 合约ether提现
     function withdraw() public payable byOwner {
         (bool success, ) = payable(msg.sender).call{
             value: address(this).balance

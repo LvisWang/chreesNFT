@@ -660,11 +660,26 @@
     },
     mounted() {
       this.connectWallet();
-      // 检测用户地址变化
+      // 检测用户地址变化，同步刷新
       ethereum.on("accountsChanged", accounts => {
-        this.connectWallet();
-        this.checked = false;
+        this.address = accounts[0]
+        this.checked = false
       });
+      // 监听网络变化，强制使用evm进行掉用哪个
+      ethereum.on("chainChanged",async result=>{
+        if(result !== "0x1"){
+          await window.ethereum.request({
+            method: "wallet_switchEthereumChain",
+            params: [
+              {
+                chainId: "0x1",
+              },
+            ],
+          });
+        }
+
+      })
+      // 检测各类message
       ethereum.on("message", message => {
         console.log(message);
       });
