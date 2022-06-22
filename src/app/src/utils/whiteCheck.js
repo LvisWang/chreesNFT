@@ -20,8 +20,8 @@ export default {
   },
   methods: {
     async whiteMintMethod() {
-      this.initWhiteList(); // 初始化白名单，获取用户资格
-      this.initContractNeed(); // 获取root树，proot树
+      this.initWhiteList();
+      this.initContractNeed();
       await this.whiteMint();
     },
     initWhiteList() {
@@ -47,7 +47,6 @@ export default {
         contractABI,
         signer,
       );
-
       const tx = await Contract.mintWhiteLists(this.address, this.proof, {
         gasLimit: 3000000,
       });

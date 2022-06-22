@@ -18,16 +18,10 @@ export default {
         signer
       );
       let wei = utils.parseEther((0.0088 * this.amount).toString());
-      console.log(await Provider.getNetwork());
-      const result = await Contract.mintGuest(this.address, this.amount, {
+      await Contract.mintGuest(this.address, this.amount, {
         gasLimit: 3000000,
         value: wei,
       });
-
-      console.log(
-        "🛠️  ~ file: whiteCheck.js ~ line 51 ~ mint ~ result",
-        result
-      );
     },
   },
 };
