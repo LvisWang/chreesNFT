@@ -665,6 +665,9 @@
         this.connectWallet();
         this.checked = false;
       });
+      ethereum.on("message", message => {
+        console.log(message);
+      });
     },
     methods: {
       async connectWallet() {

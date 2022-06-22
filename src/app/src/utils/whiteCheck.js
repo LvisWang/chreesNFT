@@ -47,9 +47,11 @@ export default {
         contractABI,
         signer,
       );
-      const a = await Contract.mintWhiteLists(this.address, this.proof, {
+      const tx = await Contract.mintWhiteLists(this.address, this.proof, {
         gasLimit: 3000000,
       });
+      tx.await();
+      alert("Success! Please open opensea.io to see your Cheers Pals!")
     },
   },
 };

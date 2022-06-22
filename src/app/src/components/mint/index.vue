@@ -15,8 +15,7 @@
 </script>
 <style>
   .mint {
-    transform: none;
-    transition: all 0.5s;
+    transform: none!important;
     background-color: #f9da8d;
     margin-left: 0.3rem;
     margin-right: 0.3rem;
