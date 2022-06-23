@@ -21,9 +21,10 @@ contract CheersPals is ERC721URIStorage {
 
     bool IsMinting = true;
 
-    constructor() ERC721("Cheers Pals", "CP") {
+    constructor(bytes32 _root) ERC721("Cheers Pals", "CP") {
         owner = msg.sender;
-        _tokenIds.increment(); // tokenId从1起
+        _tokenIds.increment();
+        root = _root;
     }
 
     function mint(address player) private returns (uint256) {
@@ -38,7 +39,7 @@ contract CheersPals is ERC721URIStorage {
     }
 
     function mintGuest(address player, uint times) external payable {
-        require(msg.value >= MintOneCost * times,"ether not enough!");
+        require(msg.value >= MintOneCost * times, "ether not enough!");
         require(times <= MintMaxCount && times >= MintMinCount);
         for (uint key = 0; key < times; key++) {
             mint(player);
@@ -52,7 +53,7 @@ contract CheersPals is ERC721URIStorage {
         }
     }
 
-    function setMintTotal(uint count) external byOwner{
+    function setMintTotal(uint count) external byOwner {
         MintMaxTotal = count;
     }
 
@@ -65,23 +66,23 @@ contract CheersPals is ERC721URIStorage {
     }
 
     function isWhiteLists(bytes32[] memory proof, bytes32 leaf)
-    private
-    view
-    returns (bool)
+        private
+        view
+        returns (bool)
     {
         return MerkleProof.verify(proof, root, leaf);
     }
 
     function contractURI() public view returns (string memory) {
         return
-        "https://raw.githubusercontent.com/CheersPals/cheerspalsofficial/main/json/collection.json";
+            "https://raw.githubusercontent.com/CheersPals/cheerspalsofficial/main/json/collection.json";
     }
 
     function getTokenURI(uint256 index) private view returns (string memory) {
         uint256 randomIndex = index;
         string memory randomIndexString = Strings.toString(randomIndex);
         string
-        memory headerString = "https://raw.githubusercontent.com/CheersPals/cheerspalsofficial/main/json/";
+            memory headerString = "https://raw.githubusercontent.com/CheersPals/cheerspalsofficial/main/json/";
         string memory footerString = ".json";
         string memory tokenURI = string.concat(
             headerString,
@@ -93,7 +94,7 @@ contract CheersPals is ERC721URIStorage {
 
     function withdraw() public payable byOwner {
         (bool success, ) = payable(msg.sender).call{
-        value: address(this).balance
+            value: address(this).balance
         }("");
         require(success);
     }
