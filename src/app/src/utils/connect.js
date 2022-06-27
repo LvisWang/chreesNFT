@@ -8,9 +8,7 @@ export default {
   methods: {
     // 连接钱包
     async onConnect() {
-      this.checkMetaMask() &&
-        //  this.checkOutNetToMain() &&
-        this.getUserAddress();
+      this.checkMetaMask() && this.checkOutNetToMain() && this.getUserAddress();
     },
     // 1.构建provider
     Provider() {
