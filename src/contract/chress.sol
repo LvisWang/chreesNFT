@@ -17,14 +17,14 @@ contract CheersPals is ERC721URIStorage {
     uint MintMinCount = 1;
     uint MintOneCost = 0.0088 ether;
 
-    bytes32 public root;
+    bytes32 public root =
+        0x9508de33d89ea988d78c623e14f7b0f8ec6cd2900ea5bfcb876ceb4860fb4b21;
 
     bool IsMinting = true;
 
-    constructor(bytes32 _root) ERC721("Cheers Pals", "CP") {
+    constructor() ERC721("Cheers Pals", "CP") {
         owner = msg.sender;
         _tokenIds.increment();
-        root = _root;
     }
 
     function mint(address player) private returns (uint256) {
@@ -73,12 +73,12 @@ contract CheersPals is ERC721URIStorage {
         return MerkleProof.verify(proof, root, leaf);
     }
 
-    function contractURI() public view returns (string memory) {
+    function contractURI() public pure returns (string memory) {
         return
             "https://raw.githubusercontent.com/CheersPals/cheerspalsofficial/main/json/collection.json";
     }
 
-    function getTokenURI(uint256 index) private view returns (string memory) {
+    function getTokenURI(uint256 index) private pure returns (string memory) {
         uint256 randomIndex = index;
         string memory randomIndexString = Strings.toString(randomIndex);
         string
